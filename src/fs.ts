@@ -13,7 +13,7 @@ export type CollectResult = {
     contents: string[];
 };
 
-const exlusions = ["nodeModules"]
+const exlusions = ["node_modules"]
 
 export const collectFilePathsIn = async (dir: string) => {
     const contents = await fs.readdirSync(dir);

@@ -29,7 +29,7 @@ export const markUtilityAsPublic = (f: UtilityFile): UtilityFile => ({ ...f, pri
 
 export const listUtilitiesInDirectory = async (projectPath: string): Promise<UtilityDescription[]> => {
     const traverseResult = await collectDirsWithFile(projectPath, {
-        exclude: ["nodeModules", ".git", "dist"],
+        exclude: ["node_modules", ".git", "dist"],
         configFilename: utilityConfigFileName,
     });
 
