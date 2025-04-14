@@ -1,14 +1,14 @@
 import fs from "fs-extra";
 import path from "path";
 
-import { chunkArr } from "../array.js";
-import { decryptStringWithPassword, encryptStringWithPassword } from "../crypto.js";
-import logger from "../logger.js";
-import { CPU_COUNT, HOME_DIR_PATH } from "../os.js";
+import { chunkArr } from "./array.js";
+import { decryptStringWithPassword, encryptStringWithPassword } from "./crypto.js";
+import logger from "./logger.js";;
+import { CPU_COUNT, HOME_DIR_PATH } from "./os.js";
 
-const VERDE_DIR_NAME = ".ki";
+const KI_DIR_NAME = ".ki";
 
-const getKiDirPath = () => path.join(HOME_DIR_PATH, VERDE_DIR_NAME);
+const getKiDirPath = () => path.join(HOME_DIR_PATH, KI_DIR_NAME);
 
 export const maybeCreateKiDirAtHomeDir = () => {
     const storePath = getKiDirPath();
@@ -18,7 +18,7 @@ export const maybeCreateKiDirAtHomeDir = () => {
     }
 };
 
-export const fileNameToPath = (fileName: string) => path.join(getKiDirPath(), fileName);
+const fileNameToPath = (fileName: string) => path.join(getKiDirPath(), fileName);
 
 export const saveToFileStorage = async (name: string, content: string): Promise<void> => {
     const filepath = fileNameToPath(name);
@@ -75,13 +75,6 @@ export const encryptAndSaveFileToStorage = async (name: string, contents: string
     await fs.writeFile(path, encrypted);
 };
 
-export const getStoredFilePath = (name: string) => fileNameToPath(name);
-
-export const createStoredFileReader = (name: string) => {
-    const path = fileNameToPath(name);
-    return fs.createReadStream(path);
-};
-
 export const retrieveEncryptedFileFromStorage = async (name: string, password: string) => {
     const prefixedName = `encrypted-${name}`;
     const path = fileNameToPath(prefixedName);
@@ -106,9 +99,4 @@ export const isStoredAsEncrypted = async (name: string) => {
     const path = fileNameToPath(prefixedName);
 
     return await fs.exists(path);
-};
-
-export const createStoredFileWriter = (name: string) => {
-    const path = fileNameToPath(name);
-    return fs.createWriteStream(path);
 };

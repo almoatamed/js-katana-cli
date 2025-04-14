@@ -3,12 +3,12 @@ import path from "path";
 import { hashBuffersWithSha256 } from "./crypto.js";
 import { collectFilePathsIn, isStoredOnDisk, readFiles, storeJSON } from "./fs.js";
 import logger from "./logger.js";;
-import { projectContext, utilityConfigFileName } from "./project.js";
+import { getProjectContext, utilityConfigFileName } from "./project.js";
 import { requestPermsToRun } from "./prompt.js";
 import { processUtilityIdentifierInput, type UtilityFile } from "./utility.js";
 
 export const initNewUtility = async (name: string, description: string) => {
-    const context = projectContext;
+    const context = await getProjectContext();
     const { owner, repo: utilityName } = await processUtilityIdentifierInput(name);
 
 

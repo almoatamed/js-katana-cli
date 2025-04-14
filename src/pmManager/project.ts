@@ -4,7 +4,7 @@ import { existsSync } from "fs-extra";
 import path, { basename, join } from "path";
 import { chunkArr } from "./array.js";
 import { hashBuffersWithSha256 } from "./crypto.js";
-import logger from "./logger.js";;
+import logger from "./logger.js";
 import { CPU_COUNT } from "./os.js";
 import { readAnswerTo } from "./prompt.js";
 import { type UtilityDescription, type UtilityFile } from "./utility.js";
@@ -14,10 +14,10 @@ const { collectDirsWithFile, findProjectRoot, projectRoot, readFiles, readJSON, 
 
 export const utilityConfigFileName = "utils.json";
 
-export const updatePackageDotJson = () => {
+export const updatePackageDotJson = async () => {
     return fs.writeFileSync(
         path.join(projectRoot, "package.json"),
-        JSON.stringify(projectContext.packageFile, null, 4),
+        JSON.stringify((await getProjectContext()).packageFile, null, 4),
     );
 };
 
@@ -94,7 +94,7 @@ const getDefaultInstallationRelativePath = async () => {
     }
     const directoryFullPath = join(projectRoot, answer);
     if (!existsSync(directoryFullPath)) {
-        logger.fatal("provided default installation path is not valid and does not exists on the current project");        
+        logger.fatal("provided default installation path is not valid and does not exists on the current project");
     }
     return answer;
 };
@@ -167,7 +167,15 @@ export const assembleProjectContext = async (pathOrCwd: string = process.cwd()):
         path: projectRoot,
     };
 };
-export const projectContext = await assembleProjectContext();
+
+let projectContext: ProjectContext | null = null;
+export const getProjectContext = async () => {
+    if (projectContext) {
+        return projectContext;
+    }
+    projectContext = await assembleProjectContext();
+    return projectContext;
+};
 
 export const removeUtilityFromProject = async (context: ProjectContext, name: string) => {
     for (const util of context.utilities) {

@@ -1,7 +1,7 @@
 import axios from "axios";
 import {} from "./github.js";
 import logger from "./logger.js";;
-import { projectContext } from "./project.js";
+import { getProjectContext } from "./project.js";
 import { readAnswerTo } from "./prompt.js";
 import { orgNameValidationRegex } from "./regex.js";
 
@@ -45,6 +45,6 @@ export const readOwnerName = async (options?: { doNotCheckIfOwnerExists: boolean
     return answer;
 };
 
-export const getDefaultOwner = () => {
-    return projectContext.packageFile.ki.defaultOrg;
+export const getDefaultOwner = async () => {
+    return (await getProjectContext()).packageFile.ki.defaultOrg!;
 };

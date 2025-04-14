@@ -9,7 +9,7 @@ import { CPU_COUNT } from "./os.js";
 import {
     assembleProjectContext,
     checkUtility,
-    projectContext,
+    getProjectContext,
     selectUtilityByName,
     utilityConfigFileName,
     type DependencyDescription,
@@ -39,7 +39,7 @@ export const processDependencies = async (
                 }
                 processedDependencies.push(utilityName);
                 await pullUtility({
-                    context: projectContext,
+                    context: await getProjectContext(),
                     inputUtilityName: `${dependencyDescription.owner}/${dependencyDescription.repo}`,
                     mainDep: mainDependencies,
                     version: dependencyDescription.version,
@@ -120,7 +120,7 @@ export const pullUtility = async ({
         if (!mainDep) {
             return;
         }
-        projectContext.packageFile.ki.dependencies[utilityName] = {
+        (await getProjectContext()).packageFile.ki.dependencies[utilityName] = {
             owner,
             repo,
             updatePolicy: updatePolicy,
@@ -185,7 +185,7 @@ export const pullUtility = async ({
         return;
     }
 
-    const checkResult = await checkUtility(projectContext, util.configFile.name);
+    const checkResult = await checkUtility(await getProjectContext(), util.configFile.name);
     util.configFile.hash = checkResult.currentHash;
 
     // const remoteConfigFileForCurrentVersion = await getRemoteVersionConfigFile(
@@ -261,7 +261,7 @@ export const pullUtility = async ({
 };
 
 export const pullAllUtilities = async ({ keepExcessUtilities = false }: { keepExcessUtilities?: boolean, force?: boolean }) => {
-    const packageDotJson = projectContext.packageFile;
+    const packageDotJson = (await getProjectContext()).packageFile;
     const mainDependencies = packageDotJson.ki.dependencies;
 
     await processDependencies(mainDependencies, true);
@@ -304,7 +304,7 @@ export const pullAllUtilities = async ({ keepExcessUtilities = false }: { keepEx
                             return;
                         }
 
-                        const checkResult = await checkUtility(projectContext, util.configFile.name);
+                        const checkResult = await checkUtility(await getProjectContext(), util.configFile.name);
                         if (remoteConfig.hash != checkResult.currentHash) {
                             logger.warning(
                                 "utility.js",

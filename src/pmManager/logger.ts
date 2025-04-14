@@ -13,7 +13,6 @@ const colors = {
 };
 
 export const loadingSpinner = ora();
-loadingSpinner.start();
 const colorText = (
     color: "black" | "red" | "green" | "yellow" | "blue" | "magenta" | "cyan" | "white" | "consoleColor",
     ...text: any[]

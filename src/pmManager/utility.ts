@@ -5,7 +5,7 @@ import { getFileFromRepo, type SingleGithubFile } from "./github.js";
 import logger from "./logger.js";;
 import { getDefaultOwner, readOwnerName } from "./owner.js";
 import {
-    projectContext,
+    getProjectContext,
     selectUtilityByName,
     utilityConfigFileName,
     type DependencyDescription,
@@ -166,7 +166,7 @@ export const processUtilityIdentifierInput = async (input: string) => {
         owner = ownerAndRepoMatch[1];
         repo = ownerAndRepoMatch[2];
         specifiedOwner = true;
-        const utility = selectUtilityByName(projectContext, repo);
+        const utility = selectUtilityByName(await getProjectContext(), repo);
         if (utility) {
             utilityExistsOnProject = true;
             if (utility.configFile.owner != owner) {
@@ -183,7 +183,7 @@ export const processUtilityIdentifierInput = async (input: string) => {
     } else if (input.match(utilityNameValidationRegex)) {
         repo = input;
 
-        const utility = selectUtilityByName(projectContext, repo);
+        const utility = selectUtilityByName(await getProjectContext(), repo);
         if (utility) {
             owner = utility.configFile.owner;
             if (!owner) {
@@ -198,7 +198,7 @@ export const processUtilityIdentifierInput = async (input: string) => {
             }
             utilityExistsOnProject = true;
         } else {
-            const defaultOwner = getDefaultOwner();
+            const defaultOwner = await getDefaultOwner();
             if (defaultOwner) {
                 logger.log("using default owner in package.json:", defaultOwner);
                 owner = defaultOwner;
@@ -215,9 +215,9 @@ export const processUtilityIdentifierInput = async (input: string) => {
     let utilityParentDirRelativePath: string;
     let utilityDirName: string;
 
-    const utility = selectUtilityByName(projectContext, repo);
+    const utility = selectUtilityByName(await getProjectContext(), repo);
 
-    const group = projectContext.packageFile.ki.grouping.find(g => repo.startsWith(g.prefix));
+    const group = (await getProjectContext()).packageFile.ki.grouping.find(g => repo.startsWith(g.prefix));
     if (utility) {
         utilityParentDirRelativePath = path.dirname(utility.path).slice(projectRoot.length);
         utilityDirName = path.basename(utility.path);
@@ -233,8 +233,8 @@ export const processUtilityIdentifierInput = async (input: string) => {
                 utilityDirName = repo;
             }
         } else {
-            if (projectContext.packageFile.ki.defaultInstallationPath) {
-                utilityParentDirRelativePath = projectContext.packageFile.ki.defaultInstallationPath;
+            if ((await getProjectContext()).packageFile.ki.defaultInstallationPath) {
+                utilityParentDirRelativePath = (await getProjectContext()).packageFile.ki.defaultInstallationPath;
             } else {
                 utilityParentDirRelativePath = await readInstallationPath();
             }

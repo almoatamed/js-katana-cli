@@ -1,11 +1,11 @@
 import type { Command } from "commander";
 import { deleteBranchOnFailure, getUtilityVersions } from "./github.js";
-import { getUtilityByName, projectContext, updatePackageDotJson, type PackageDotJSONFile } from "./project.js";
+import { getUtilityByName, getProjectContext, updatePackageDotJson, type PackageDotJSONFile } from "./project.js";
 
 import { clearCachedItems, listCachedItems } from "./cache.js";
 
 import { initNewUtility } from "./init.js";
-import logger, { loadingSpinner } from "./logger.js";;
+import logger, { loadingSpinner } from "./logger.js";
 import {
     addConfigToProjectPackageFile,
     checkAllUtilities,
@@ -18,21 +18,23 @@ import { pullAllUtilities, pullUtility } from "./pull.js";
 import { pushUtility, pushAllUtilities } from "./push.js";
 import { parseUtilityVersion, processUtilityIdentifierInput, type Version } from "./utility.js";
 
-const context = projectContext;
+import path from "path";
+import url from "url";
+import { readJSON } from "./fs.js";
 
 const addConfigCommandToProgram = (program: Command) =>
     program.command("config").action(async () => {
-        addConfigToProjectPackageFile(context);
+        addConfigToProjectPackageFile(await getProjectContext());
     });
 
 const addListToProgram = (program: Command) =>
     program.command("list").action(async () => {
-        if (context.utilities.length === 0) {
+        if ((await getProjectContext()).utilities.length === 0) {
             console.warn("no tool found!.");
             return;
         }
 
-        for (const config of context.utilities) {
+        for (const config of (await getProjectContext()).utilities) {
             logger.log("Tool found: ", config.configFile.name);
         }
     });
@@ -47,7 +49,7 @@ const addInitCommand = (program: Command) =>
 
 const addRemoveUtilityCommand = (program: Command) =>
     program.command("remove <name>").action(async p => {
-        await removeUtilityFromProject(projectContext, p);
+        await removeUtilityFromProject(await getProjectContext(), p);
     });
 
 const addPushUtilityCommand = (program: Command) =>
@@ -57,7 +59,7 @@ const addPushUtilityCommand = (program: Command) =>
         if (utilityName) {
             logger.log("pushing single");
             await pushUtility({
-                context: projectContext,
+                context: await getProjectContext(),
                 inputUtilityName: utilityName,
                 mainDep: true,
             });
@@ -66,29 +68,29 @@ const addPushUtilityCommand = (program: Command) =>
             return;
         }
 
-        await pushAllUtilities(context);
+        await pushAllUtilities(await getProjectContext());
         updatePackageDotJson();
         loadingSpinner.stop();
     });
 
 const addHideCommand = (program: Command) =>
     program.command("hide <name>").action(async name => {
-        await hideUtilityInProject(context, name);
+        await hideUtilityInProject(await getProjectContext(), name);
     });
 
 const addRevealCommand = (program: Command) =>
     program.command("reveal <name>").action(async name => {
-        await revealUtilityInProject(context, name);
+        await revealUtilityInProject(await getProjectContext(), name);
     });
 
 const addCheckCommand = (program: Command) =>
     program.command("check [name]").action(async (name?: string) => {
         if (name) {
-            await checkUtility(context, name);
+            await checkUtility(await getProjectContext(), name);
             return;
         }
 
-        await checkAllUtilities(context);
+        await checkAllUtilities(await getProjectContext());
     });
 
 const addDeleteBranchVersion = (program: Command) =>
@@ -121,7 +123,7 @@ const addPullCommand = (program: Command) =>
                 options: {
                     version?: string;
                     keepExcessUtilities: boolean;
-                    force: boolean; 
+                    force: boolean;
                 },
             ) => {
                 const { version } = options;
@@ -133,14 +135,14 @@ const addPullCommand = (program: Command) =>
 
                 if (name) {
                     const { repo } = await processUtilityIdentifierInput(name);
-                    const packageDotJSONFile = projectContext.packageFile;
+                    const packageDotJSONFile = (await getProjectContext()).packageFile;
                     let updatePolicy: "major" | "minor" | "fixed" | "batch" = "minor";
                     if (packageDotJSONFile.ki.dependencies[repo]) {
                         updatePolicy = packageDotJSONFile.ki.dependencies[repo].updatePolicy;
                     }
                     await pullUtility({
                         mainDep: true,
-                        context: projectContext,
+                        context: await getProjectContext(),
                         inputUtilityName: name,
                         version: version,
                         force: options.force,
@@ -194,20 +196,7 @@ const addCacheCommands = (program: Command) =>
             await listCachedItems();
         });
 
-import path from "path";
-import url from "url";
-import { readJSON } from "./fs.js";
-const currendDir = url.fileURLToPath(new url.URL("./.", import.meta.url));
-const kiPackageDotJsonFile = path.join(currendDir, "../package.json");
 export const addCommands = (program: Command) => {
-    program.option("-v, --version").action(({ version }: { version: boolean }) => {
-        if (version) {
-            const kiPackageDotJson: PackageDotJSONFile = readJSON(kiPackageDotJsonFile);
-            logger.info(kiPackageDotJson.version);
-            return;
-        }
-        program.help();
-    });
     addInitCommand(program);
     addListToProgram(program);
     addRemoveUtilityCommand(program);

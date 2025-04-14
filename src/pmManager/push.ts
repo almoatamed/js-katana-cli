@@ -2,7 +2,7 @@ import { chunkArr } from "./array.js";
 import { deleteBranchOnFailure, getFileFromRepo, getUtilityVersions, type SingleGithubFile } from "./github.js";
 import logger from "./logger.js";;
 import { CPU_COUNT } from "./os.js";
-import { checkUtility, projectContext, type ProjectContext } from "./project.js";
+import { checkUtility, getProjectContext, type ProjectContext } from "./project.js";
 import { getToken } from "./tokens.js";
 import {
     collectDependenciesList,
@@ -312,10 +312,10 @@ export const pushUtility = async ({
     }
 
     if (mainDep) {
-        projectContext.packageFile.ki.dependencies[repo] = {
+        (await getProjectContext()).packageFile.ki.dependencies[repo] = {
             owner: owner,
             repo: repo,
-            updatePolicy: projectContext.packageFile.ki.dependencies[repo]?.updatePolicy || "minor",
+            updatePolicy: (await getProjectContext()).packageFile.ki.dependencies[repo]?.updatePolicy || "minor",
             version: util.configFile.version as any,
         };
     }
@@ -325,22 +325,22 @@ export const pushAllUtilities = async (context: ProjectContext) => {
     const chunked = chunkArr(context.utilities, CPU_COUNT * 2);
 
     const allDependencies = await collectDependenciesList(
-        projectContext,
-        projectContext.packageFile.ki.dependencies,
+        await getProjectContext(),
+        (await getProjectContext()).packageFile.ki.dependencies,
     );
 
-    const excessUtilities = projectContext.utilities.filter(u => {
+    const excessUtilities = (await getProjectContext()).utilities.filter(u => {
         return !allDependencies[u.configFile.name];
     });
 
     for (const chunk of chunked) {
         await Promise.all(
-            chunk.map(u =>
+            chunk.map(async u =>
                 pushUtility({
-                    context: projectContext,
+                    context: await getProjectContext(),
                     inputUtilityName: u.configFile.name,
                     mainDep:
-                        !!projectContext.packageFile.ki.dependencies[u.configFile.name] ||
+                        !!(await getProjectContext()).packageFile.ki.dependencies[u.configFile.name] ||
                         !!excessUtilities.find(u => u.configFile.name == u.configFile.name),
                 }),
             ),
