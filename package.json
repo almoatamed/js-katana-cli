@@ -1,6 +1,6 @@
 {
     "name": "@js-katana/cli",
-    "version": "1.3.13",
+    "version": "1.3.14",
     "description": "Js-katana framework cli to control every aspect of your project",
     "keywords": [
         "js-katana",
@@ -20,7 +20,7 @@
     "author": "S. Elmotamed",
     "type": "module",
     "bin": {
-        "ki": "src/main.ts"
+        "ki": "dist/main.ts"
     },
     "directories": {
         "test": "tests"
