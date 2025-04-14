@@ -41,7 +41,7 @@ describe("check", () => {
 
         try {
             const cmd = addCommands(new Command());
-            await cmd.parseAsync(["node", "verde", "check", "foo"]);
+            await cmd.parseAsync(["node", "ki", "check", "foo"]);
         } catch {}
 
         expect(console.error).toHaveBeenCalledWith("could not find utility with name foo");
@@ -58,12 +58,12 @@ describe("check", () => {
         await fs.mkdir(path.join(testDirPath, "foo"));
         await fs.writeFile(path.join(testDirPath, "foo", "index.ts"), "console.log('hello world')");
         process.chdir("./foo");
-        await cmd.parseAsync(["node", "verde", "init", "foo"]);
+        await cmd.parseAsync(["node", "ki", "init", "foo"]);
         process.chdir("..");
 
         const utilFileBeforeCheck = await readJSON<UtilityFile>("./foo/utils.json");
 
-        await cmd.parseAsync(["node", "verde", "check", "foo"]);
+        await cmd.parseAsync(["node", "ki", "check", "foo"]);
 
         const utilFileAfterCheck = await readJSON<UtilityFile>("./foo/utils.json");
 
@@ -81,13 +81,13 @@ describe("check", () => {
         await fs.mkdir(path.join(testDirPath, "foo"));
         await fs.writeFile(path.join(testDirPath, "foo", "index.ts"), "console.log('hello world')");
         process.chdir("./foo");
-        await cmd.parseAsync(["node", "verde", "init", "foo"]);
+        await cmd.parseAsync(["node", "ki", "init", "foo"]);
         await fs.writeFile(path.join(testDirPath, "foo", "index2.ts"), "console.log('this file changes the hash')");
         process.chdir("..");
 
         const utilFileBeforeCheck = await readJSON<UtilityFile>("./foo/utils.json");
 
-        await cmd.parseAsync(["node", "verde", "check", "foo"]);
+        await cmd.parseAsync(["node", "ki", "check", "foo"]);
 
         const utilFileAfterCheck = await readJSON<UtilityFile>("./foo/utils.json");
 
@@ -102,7 +102,7 @@ describe("check", () => {
         await storeJSON("package.json", { name: "FOO" });
 
         const cmd = addCommands(new Command());
-        await cmd.parseAsync(["node", "verde", "check"]);
+        await cmd.parseAsync(["node", "ki", "check"]);
 
         expect(console.error).not.toHaveBeenCalled();
     });
@@ -124,13 +124,13 @@ describe("check", () => {
             await fs.mkdir(path.join(testDirPath, name));
             await fs.writeFile(path.join(testDirPath, name, "index.ts"), "console.log('hello world')");
             process.chdir(`./${name}`);
-            await cmd.parseAsync(["node", "verde", "init", name]);
+            await cmd.parseAsync(["node", "ki", "init", name]);
 
             i--;
             process.chdir("..");
         }
 
-        await cmd.parseAsync(["node", "verde", "check"]);
+        await cmd.parseAsync(["node", "ki", "check"]);
 
         i = 50;
 
@@ -158,7 +158,7 @@ describe("check", () => {
             await fs.mkdir(path.join(testDirPath, name));
             await fs.writeFile(path.join(testDirPath, name, "index.ts"), "console.log('hello world')");
             process.chdir(`./${name}`);
-            await cmd.parseAsync(["node", "verde", "init", name]);
+            await cmd.parseAsync(["node", "ki", "init", name]);
 
             i--;
             process.chdir("..");
@@ -176,7 +176,7 @@ describe("check", () => {
             process.chdir("..");
         }
 
-        await cmd.parseAsync(["node", "verde", "check"]);
+        await cmd.parseAsync(["node", "ki", "check"]);
 
         i = 25;
 

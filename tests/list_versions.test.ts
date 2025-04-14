@@ -34,7 +34,7 @@ describe("versions", () => {
 
         try {
             const cmd = addCommands(new Command());
-            await cmd.parseAsync(["node", "verde", "list-versions", "foo"]);
+            await cmd.parseAsync(["node", "ki", "list-versions", "foo"]);
         } catch {}
 
         expect(console.error).toHaveBeenCalledWith("Utility not found");

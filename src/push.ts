@@ -312,10 +312,10 @@ export const pushUtility = async ({
     }
 
     if (mainDep) {
-        projectContext.packageFile.verde.dependencies[repo] = {
+        projectContext.packageFile.ki.dependencies[repo] = {
             owner: owner,
             repo: repo,
-            updatePolicy: projectContext.packageFile.verde.dependencies[repo]?.updatePolicy || "minor",
+            updatePolicy: projectContext.packageFile.ki.dependencies[repo]?.updatePolicy || "minor",
             version: util.configFile.version as any,
         };
     }
@@ -326,7 +326,7 @@ export const pushAllUtilities = async (context: ProjectContext) => {
 
     const allDependencies = await collectDependenciesList(
         projectContext,
-        projectContext.packageFile.verde.dependencies,
+        projectContext.packageFile.ki.dependencies,
     );
 
     const excessUtilities = projectContext.utilities.filter(u => {
@@ -340,7 +340,7 @@ export const pushAllUtilities = async (context: ProjectContext) => {
                     context: projectContext,
                     inputUtilityName: u.configFile.name,
                     mainDep:
-                        !!projectContext.packageFile.verde.dependencies[u.configFile.name] ||
+                        !!projectContext.packageFile.ki.dependencies[u.configFile.name] ||
                         !!excessUtilities.find(u => u.configFile.name == u.configFile.name),
                 }),
             ),

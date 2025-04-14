@@ -38,7 +38,7 @@ describe("pull", () => {
 
         try {
             const cmd = addCommands(new Command());
-            await cmd.parseAsync(["node", "verde", "pull", "common", "--version=foo.bar.baz"]);
+            await cmd.parseAsync(["node", "ki", "pull", "common", "--version=foo.bar.baz"]);
         } catch {}
 
         expect(process.exit).toHaveBeenCalledWith(1);
@@ -59,7 +59,7 @@ describe("pull", () => {
 
         try {
             const cmd = addCommands(new Command());
-            await cmd.parseAsync(["node", "verde", "pull", "common2"]);
+            await cmd.parseAsync(["node", "ki", "pull", "common2"]);
         } catch {}
 
         expect(Prompt.readAnswerTo).toHaveBeenCalledWith("Please input your organization name:");

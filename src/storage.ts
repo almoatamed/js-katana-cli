@@ -6,19 +6,19 @@ import { decryptStringWithPassword, encryptStringWithPassword } from "./crypto.j
 import logger from "./logger.js";;
 import { CPU_COUNT, HOME_DIR_PATH } from "./os.js";
 
-const VERDE_DIR_NAME = ".verde";
+const VERDE_DIR_NAME = ".ki";
 
-const getVerdeDirPath = () => path.join(HOME_DIR_PATH, VERDE_DIR_NAME);
+const getKiDirPath = () => path.join(HOME_DIR_PATH, VERDE_DIR_NAME);
 
-export const maybeCreateVerdeDirAtHomeDir = () => {
-    const storePath = getVerdeDirPath();
+export const maybeCreateKiDirAtHomeDir = () => {
+    const storePath = getKiDirPath();
 
     if (!fs.existsSync(storePath)) {
         fs.mkdirSync(storePath);
     }
 };
 
-const fileNameToPath = (fileName: string) => path.join(getVerdeDirPath(), fileName);
+const fileNameToPath = (fileName: string) => path.join(getKiDirPath(), fileName);
 
 export const saveToFileStorage = async (name: string, content: string): Promise<void> => {
     const filepath = fileNameToPath(name);
@@ -54,8 +54,8 @@ export const isFileStored = async (name: string): Promise<boolean> => {
 };
 
 export const getStoredFileNames = async () => {
-    const verdeDirPath = getVerdeDirPath();
-    return await fs.readdir(verdeDirPath);
+    const kiDirPath = getKiDirPath();
+    return await fs.readdir(kiDirPath);
 };
 
 export const removeFilesFromStorage = async (...names: string[]): Promise<void> => {

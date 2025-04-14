@@ -3,7 +3,7 @@
 import { program } from "commander";
 import { addCommands } from "./commands.js";
 import logger, { loadingSpinner } from "./logger.js";;
-import { maybeCreateVerdeDirAtHomeDir } from "./storage/index.js";
+import { maybeCreateKiDirAtHomeDir } from "./storage/index.js";
 
 process.on("uncaughtException", error=>{
     logger.fatal(error)
@@ -18,7 +18,7 @@ process.on("unhandledRejection", error=>{
     logger.fatal(error)
 })
 const parseAndRun = async () => {
-    maybeCreateVerdeDirAtHomeDir();
+    maybeCreateKiDirAtHomeDir();
 
     addCommands(program);
     await program.parseAsync();

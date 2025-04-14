@@ -49,7 +49,7 @@ describe("remove", () => {
         );
 
         const cmd = addCommands(new Command());
-        await cmd.parseAsync(["node", "verde", "remove", "baz"]);
+        await cmd.parseAsync(["node", "ki", "remove", "baz"]);
 
         expect(await fs.exists(path.join(testDirPath, "foo-util"))).toBe(true);
         expect(await fs.exists(path.join(testDirPath, "bar-util"))).toBe(true);
@@ -79,7 +79,7 @@ describe("remove", () => {
         );
 
         const cmd = addCommands(new Command());
-        await cmd.parseAsync(["node", "verde", "remove", "baz"]);
+        await cmd.parseAsync(["node", "ki", "remove", "baz"]);
 
         expect(await fs.exists(path.join(testDirPath, "foo-util"))).toBe(true);
         expect(await fs.exists(path.join(testDirPath, "bar-util"))).toBe(true);

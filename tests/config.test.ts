@@ -29,21 +29,21 @@ describe("config", () => {
         return name;
     };
 
-    test("config command: no verde entry should write default.", async () => {
+    test("config command: no ki entry should write default.", async () => {
         vi.spyOn(console, "error");
 
         await moveToTestDir();
 
         await storeJSON("package.json", { name: "FOO" });
         const cmd = addCommands(new Command());
-        await cmd.parseAsync(["node", "verde", "config"]);
+        await cmd.parseAsync(["node", "ki", "config"]);
 
         const packageFile = await readJSON<ProjectContext["packageFile"]>("package.json");
 
         expect(packageFile.name).toBe("FOO");
-        expect(packageFile.verde.org).toBe("aramtech");
-        expect(packageFile.verde.dest).toBe("./server/utils");
-        expect(packageFile.verde.deps).toEqual({});
+        expect(packageFile.ki.org).toBe("aramtech");
+        expect(packageFile.ki.dest).toBe("./server/utils");
+        expect(packageFile.ki.deps).toEqual({});
     });
 
     test("config command: should not update an existing config entry.", async () => {
@@ -53,15 +53,15 @@ describe("config", () => {
 
         await storeJSON("package.json", {
             name: "FOO",
-            verde: { org: "salem-is-the-best", dest: "he-does-not-write-tests-though ; - ;" },
+            ki: { org: "salem-is-the-best", dest: "he-does-not-write-tests-though ; - ;" },
         });
         const cmd = addCommands(new Command());
-        await cmd.parseAsync(["node", "verde", "config"]);
+        await cmd.parseAsync(["node", "ki", "config"]);
 
         const packageFile = await readJSON<ProjectContext["packageFile"]>("package.json");
 
         expect(packageFile.name).toBe("FOO");
-        expect(packageFile.verde.org).toBe("salem-is-the-best");
-        expect(packageFile.verde.dest).toBe("he-does-not-write-tests-though ; - ;");
+        expect(packageFile.ki.org).toBe("salem-is-the-best");
+        expect(packageFile.ki.dest).toBe("he-does-not-write-tests-though ; - ;");
     });
 });

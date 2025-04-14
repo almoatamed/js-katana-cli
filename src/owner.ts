@@ -46,5 +46,5 @@ export const readOwnerName = async (options?: { doNotCheckIfOwnerExists: boolean
 };
 
 export const getDefaultOwner = () => {
-    return projectContext.packageFile.verde.defaultOrg;
+    return projectContext.packageFile.ki.defaultOrg;
 };

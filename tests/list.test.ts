@@ -38,7 +38,7 @@ describe("list", () => {
         await storeJSON("package.json", { name: "FOO" });
 
         const cmd = addCommands(new Command());
-        await cmd.parseAsync(["node", "verde", "list"]);
+        await cmd.parseAsync(["node", "ki", "list"]);
 
         expect(console.warn).toHaveBeenCalledWith("no tool found!.");
     });
@@ -72,7 +72,7 @@ describe("list", () => {
         );
 
         const cmd = addCommands(new Command());
-        await cmd.parseAsync(["node", "verde", "list"]);
+        await cmd.parseAsync(["node", "ki", "list"]);
 
         expect(console.log).toHaveBeenCalledWith("Tool found: ", "foo");
         expect(console.log).toHaveBeenCalledWith("Tool found: ", "bar");

@@ -43,7 +43,7 @@ describe("init", () => {
         const cmd = new Command();
         addCommands(cmd);
 
-        await cmd.parseAsync(["node", "verde", "init", "foo", "-d FOO IS GREAT BAR IS NONE"]);
+        await cmd.parseAsync(["node", "ki", "init", "foo", "-d FOO IS GREAT BAR IS NONE"]);
 
         const utilFile = await readJSON<UtilityFile>("utils.json");
 
@@ -64,9 +64,9 @@ describe("init", () => {
         const cmd = new Command();
         addCommands(cmd);
 
-        await cmd.parseAsync(["node", "verde", "init", "foo"]);
-        await cmd.parseAsync(["node", "verde", "init", "foo"]);
+        await cmd.parseAsync(["node", "ki", "init", "foo"]);
+        await cmd.parseAsync(["node", "ki", "init", "foo"]);
 
-        expect(console.error).toHaveBeenCalledWith("directory already managed by verde!.");
+        expect(console.error).toHaveBeenCalledWith("directory already managed by ki!.");
     });
 });

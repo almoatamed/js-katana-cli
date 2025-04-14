@@ -48,7 +48,7 @@ export const listUtilitiesInDirectory = async (projectPath: string): Promise<Uti
     return descArr;
 };
 
-type VerdeConfig = {
+type KiConfig = {
     dependencies: Record<string, DependencyDescription>;
     defaultInstallationPath: string;
     defaultOrg: string | null;
@@ -72,7 +72,7 @@ export type PackageDotJSONFile = {
     version: string;
     dependencies: Record<string, string>;
     devDependencies: Record<string, string>;
-    verde: VerdeConfig;
+    ki: KiConfig;
 };
 
 export type ProjectContext = {
@@ -127,30 +127,30 @@ export const assembleProjectContext = async (pathOrCwd: string = process.cwd()):
     logger.log("loading package.json");
     const packageFile = readJSON<PackageDotJSONFile>(join(projectRoot, "package.json"));
 
-    if (packageFile.verde === undefined) {
-        const verde: VerdeConfig = {
+    if (packageFile.ki === undefined) {
+        const ki: KiConfig = {
             defaultInstallationPath: await getDefaultInstallationRelativePath(),
             dependencies: {},
             grouping: [],
             defaultOrg: null,
         };
 
-        const packageFileWithVerde = {
+        const packageFileWithKi = {
             ...packageFile,
-            verde,
+            ki,
         };
 
-        await storeJSON(join(projectRoot, "package.json"), packageFileWithVerde);
+        await storeJSON(join(projectRoot, "package.json"), packageFileWithKi);
 
         return {
             utilities,
             utilitiesInCwd,
             path: projectRoot,
-            packageFile: packageFileWithVerde,
+            packageFile: packageFileWithKi,
         };
     }
     logger.log("sorting dependencies");
-    packageFile.verde.grouping = packageFile.verde.grouping.sort((gA, gB) => {
+    packageFile.ki.grouping = packageFile.ki.grouping.sort((gA, gB) => {
         if (gA.prefix.length > gB.prefix.length) {
             return 1;
         } else if (gA.prefix.length < gB.prefix.length) {
@@ -260,5 +260,5 @@ export const checkAllUtilities = async (context: ProjectContext) => {
 };
 export const addConfigToProjectPackageFile = async (context: ProjectContext) => {
     await storeJSON<PackageDotJSONFile>(join(context.path, "package.json"), context.packageFile);
-    logger.log("Your verde config: \n", JSON.stringify(context.packageFile.verde, undefined, 4));
+    logger.log("Your ki config: \n", JSON.stringify(context.packageFile.ki, undefined, 4));
 };

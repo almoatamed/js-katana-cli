@@ -46,7 +46,7 @@ describe("reveal", () => {
         );
 
         const cmd = addCommands(new Command());
-        await cmd.parseAsync(["node", "verde", "reveal", "baz"]);
+        await cmd.parseAsync(["node", "ki", "reveal", "baz"]);
 
         expect(console.error).toHaveBeenCalledWith("could not find utility with name baz");
     });
@@ -65,7 +65,7 @@ describe("reveal", () => {
         );
 
         const cmd = addCommands(new Command());
-        await cmd.parseAsync(["node", "verde", "reveal", "foo"]);
+        await cmd.parseAsync(["node", "ki", "reveal", "foo"]);
 
         expect(console.error).not.toHaveBeenCalledWith("could not find utility with name foo");
 

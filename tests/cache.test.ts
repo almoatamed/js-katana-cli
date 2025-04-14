@@ -42,7 +42,7 @@ describe("cache", () => {
         );
 
         const cmd = addCommands(new Command());
-        await cmd.parseAsync(["node", "verde", "cache"]);
+        await cmd.parseAsync(["node", "ki", "cache"]);
     });
 
     test("cache command: should list entry that was added right before calling the command.", async () => {
@@ -61,7 +61,7 @@ describe("cache", () => {
         await cache("foo.js", Buffer.from("Hello world"));
 
         const cmd = addCommands(new Command());
-        await cmd.parseAsync(["node", "verde", "cache", "list"]);
+        await cmd.parseAsync(["node", "ki", "cache", "list"]);
 
         expect(console.log).toHaveBeenCalledWith(`Found entry with name: foo.js`);
     });
@@ -82,8 +82,8 @@ describe("cache", () => {
         await cache("baz.js", Buffer.from("// baz!"));
 
         const cmd = addCommands(new Command());
-        await cmd.parseAsync(["node", "verde", "cache", "clear"]);
+        await cmd.parseAsync(["node", "ki", "cache", "clear"]);
 
-        expect(fs.remove).toHaveBeenCalledWith(path.join(HOME_DIR_PATH, ".verde", "cache-baz.js"));
+        expect(fs.remove).toHaveBeenCalledWith(path.join(HOME_DIR_PATH, ".ki", "cache-baz.js"));
     });
 });

@@ -217,7 +217,7 @@ export const processUtilityIdentifierInput = async (input: string) => {
 
     const utility = selectUtilityByName(projectContext, repo);
 
-    const group = projectContext.packageFile.verde.grouping.find(g => repo.startsWith(g.prefix));
+    const group = projectContext.packageFile.ki.grouping.find(g => repo.startsWith(g.prefix));
     if (utility) {
         utilityParentDirRelativePath = path.dirname(utility.path).slice(projectRoot.length);
         utilityDirName = path.basename(utility.path);
@@ -233,8 +233,8 @@ export const processUtilityIdentifierInput = async (input: string) => {
                 utilityDirName = repo;
             }
         } else {
-            if (projectContext.packageFile.verde.defaultInstallationPath) {
-                utilityParentDirRelativePath = projectContext.packageFile.verde.defaultInstallationPath;
+            if (projectContext.packageFile.ki.defaultInstallationPath) {
+                utilityParentDirRelativePath = projectContext.packageFile.ki.defaultInstallationPath;
             } else {
                 utilityParentDirRelativePath = await readInstallationPath();
             }
