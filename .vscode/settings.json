@@ -1,0 +1,10 @@
+{
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "cSpell.words": [
+        "Cryptr",
+        "Elmotamed",
+        "katana",
+        "octo",
+        "unzipper"
+    ]
+}
