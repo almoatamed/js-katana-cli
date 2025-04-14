@@ -7,7 +7,6 @@ import { createCommand as db } from "./db/index.js";
 import { createCommand as dev } from "./dev/index.js";
 import { createCommand as format } from "./fmt/index.js";
 import { createCommand as basetagLink } from "./link/index.js";
-import { createCommand as makeAuthoritiesTypeList } from "./makeAuthoritiesTypeList/index.js";
 import { createCommand as removeAllMarkdownDescriptions } from "./removeAllMarkdownDescriptions/index.js";
 import { createCommand as seed } from "./seed/index.js";
 import { createCommand as start } from "./start/index.js";
@@ -25,7 +24,6 @@ const createCommands = async (program: import("commander").Command) => {
     createRoute(program);
     basetagLink(program);
     build(program);
-    makeAuthoritiesTypeList(program);
     db(program);
     auth(program);
     dev(program);

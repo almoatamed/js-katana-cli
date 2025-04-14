@@ -14,9 +14,16 @@ export const hasBun = () => {
 
 export const installBun = () => {
     if (!hasBun()) {
-        execSync("sudo npm i -g bun", {
-            stdio: "inherit",
-            cwd: appPath,
-        });
+        try {
+            execSync("npm i -g bun", {
+                stdio: "inherit",
+                cwd: appPath,
+            });
+        } catch (error) {
+            execSync("sudo npm i -g bun", {
+                stdio: "inherit",
+                cwd: appPath,
+            });
+        }
     }
 };
