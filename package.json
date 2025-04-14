@@ -1,5 +1,5 @@
 {
-    "name": "@js-kt/cli",
+    "name": "@js-kt-cli",
     "version": "1.3.9",
     "description": "Js-katana framework cli to control every aspect of your project",
     "keywords": [
