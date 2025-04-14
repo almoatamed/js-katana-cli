@@ -135,8 +135,8 @@ const addPullCommand = (program: Command) =>
                     const { repo } = await processUtilityIdentifierInput(name);
                     const packageDotJSONFile = projectContext.packageFile;
                     let updatePolicy: "major" | "minor" | "fixed" | "batch" = "minor";
-                    if (packageDotJSONFile.verde.dependencies[repo]) {
-                        updatePolicy = packageDotJSONFile.verde.dependencies[repo].updatePolicy;
+                    if (packageDotJSONFile.ki.dependencies[repo]) {
+                        updatePolicy = packageDotJSONFile.ki.dependencies[repo].updatePolicy;
                     }
                     await pullUtility({
                         mainDep: true,
@@ -198,12 +198,12 @@ import path from "path";
 import url from "url";
 import { readJSON } from "./fs.js";
 const currendDir = url.fileURLToPath(new url.URL("./.", import.meta.url));
-const verdePackageDotJsonFile = path.join(currendDir, "../package.json");
+const kiPackageDotJsonFile = path.join(currendDir, "../package.json");
 export const addCommands = (program: Command) => {
     program.option("-v, --version").action(({ version }: { version: boolean }) => {
         if (version) {
-            const verdePackageDotJson: PackageDotJSONFile = readJSON(verdePackageDotJsonFile);
-            logger.info(verdePackageDotJson.version);
+            const kiPackageDotJson: PackageDotJSONFile = readJSON(kiPackageDotJsonFile);
+            logger.info(kiPackageDotJson.version);
             return;
         }
         program.help();

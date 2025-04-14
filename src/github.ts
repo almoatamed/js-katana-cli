@@ -2,11 +2,13 @@ import axios from "axios";
 import fs from "fs";
 import path from "path";
 import url from "url";
+import os from "os";
 import { projectRoot, readJSON, storeJSON } from "./fs.js";
 import { loadingSpinner, default as Logger, default as logger } from "./logger.js";
 import { getOctokitClient } from "./octokit.js";
 import { readAnswerTo } from "./prompt.js";
 import { compareVersions, parseUtilityVersion, type Version } from "./utility.js";
+import { sys } from "typescript";
 
 export const orgNameToApiLink = (repoName: string) => `https://api.github.com/orgs/${repoName}`;
 export const repoNameToApiLink = (repoName: string) => `https://api.github.com/repos/${repoName}`;
@@ -53,9 +55,10 @@ export const getTokenForRepo = async (repoName: string) => {
     return githubPersonalAccessToken;
 };
 
-const currentDir = url.fileURLToPath(new url.URL("./", import.meta.url));
-export const tokensJsonPath = path.join(currentDir, "tokenCache.ignore.json");
-export const relativeUtilsJsonPath = path.join(currentDir, "relativeUtils.ignore.json");
+const cliCacheDir = path.join(os.homedir(), ".ki");
+fs.mkdirSync(cliCacheDir, { recursive: true });
+export const tokensJsonPath = path.join(cliCacheDir, "tokenCache.ignore.json");
+export const relativeUtilsJsonPath = path.join(cliCacheDir, "relativeUtils.ignore.json");
 export type TokensStore = {
     [projectRoot: string]: {
         token: string;

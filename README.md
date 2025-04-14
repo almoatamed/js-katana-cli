@@ -1,5 +1,5 @@
 
-# verde
+# ki
 
 a CLI tool for vendoring utilities.
 
@@ -11,16 +11,16 @@ a CLI tool for vendoring utilities.
 
 ## Installation
 
-To install verde use npm and run the following command
+To install ki use npm and run the following command
 
 ```bash
-$ npm i git@github.com:aramtech/verde.git --global
+$ npm i git@github.com:aramtech/ki.git --global
 ```
 
-This will install verde from this github repository, you can then test it via:
+This will install ki from this github repository, you can then test it via:
 
 ```bash
-$ verde list
+$ ki list
 
 no tool found!.
 ```
@@ -30,7 +30,7 @@ no tool found!.
 To turn a directory with TypeScript/JavaScript modules into a vendored utility run:
 
 ```bash
-$ verde init <utility-name> -d [description]
+$ ki init <utility-name> -d [description]
 ```
 
 This will create a `utils.json` file, which is a simple config file that contains:
@@ -53,7 +53,7 @@ This will create a `utils.json` file, which is a simple config file that contain
 You can list the utilities in a given project by running:
 
 ```bash
-$ verde list
+$ ki list
 
 * string-utils@1.5 | Utilities for manipulating with strings
 * odoo-integration@0.1 | Utilities for integrating with odoo *private*
@@ -62,7 +62,7 @@ $ verde list
 You can remove a utility from your project by running:
 
 ```bash
-$ verde remove string-utils
+$ ki remove string-utils
 
 string-utils@1.5 Was removed successfully
 ```
@@ -70,7 +70,7 @@ string-utils@1.5 Was removed successfully
 You can push a utility to github by running:
 
 ```bash
-$ verde push string-utils
+$ ki push string-utils
 
 string-utils@1.5 Was pushed to github successfully
 ```
@@ -78,7 +78,7 @@ string-utils@1.5 Was pushed to github successfully
 You can pull a utility from github by running:
 
 ```bash
-$ verde pull string-utils
+$ ki pull string-utils
 
 string-utils@1.5 was added to the project successfully
 ```
@@ -86,11 +86,11 @@ string-utils@1.5 was added to the project successfully
 You can make a utility private by running:
 
 ```bash
-$ verde hide string-utils
+$ ki hide string-utils
 ```
 
 You can make it public again by running:
 
 ```bash
-verde reveal string-utils
+ki reveal string-utils
 ```

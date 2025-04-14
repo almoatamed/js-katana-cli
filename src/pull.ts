@@ -120,7 +120,7 @@ export const pullUtility = async ({
         if (!mainDep) {
             return;
         }
-        projectContext.packageFile.verde.dependencies[utilityName] = {
+        projectContext.packageFile.ki.dependencies[utilityName] = {
             owner,
             repo,
             updatePolicy: updatePolicy,
@@ -262,7 +262,7 @@ export const pullUtility = async ({
 
 export const pullAllUtilities = async ({ keepExcessUtilities = false }: { keepExcessUtilities?: boolean, force?: boolean }) => {
     const packageDotJson = projectContext.packageFile;
-    const mainDependencies = packageDotJson.verde.dependencies;
+    const mainDependencies = packageDotJson.ki.dependencies;
 
     await processDependencies(mainDependencies, true);
 

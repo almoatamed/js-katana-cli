@@ -13,7 +13,7 @@ export const initNewUtility = async (name: string, description: string) => {
 
 
     if (await isStoredOnDisk(utilityConfigFileName)) {
-        logger.fatal("directory already managed by verde!.");
+        logger.fatal("directory already managed by ki!.");
         return;
     }
 

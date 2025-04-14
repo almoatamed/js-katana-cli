@@ -1,2 +1,10 @@
 **/*.test.ts
 *.test.ts
+.vscode
+.github
+.tests
+.vitest.config.ts
+.bun.lockb
+package-lock.json
+src
+tsconfig
