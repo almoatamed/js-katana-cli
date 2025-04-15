@@ -1,4 +1,4 @@
-import fs from "fs-extra";
+import fs from "fs";
 import path from "path";
 
 import { chunkArr } from "./array.js";
@@ -22,14 +22,14 @@ const fileNameToPath = (fileName: string) => path.join(getKiDirPath(), fileName)
 
 export const saveToFileStorage = async (name: string, content: string): Promise<void> => {
     const filepath = fileNameToPath(name);
-    await fs.writeFile(filepath, content, {
+    fs.writeFileSync(filepath, content, {
         encoding: "utf-8",
     });
 };
 
 export const getFileFromStorage = async (name: string): Promise<Buffer> => {
     const filepath = fileNameToPath(name);
-    return await fs.readFile(filepath);
+    return  fs.readFileSync(filepath);
 };
 
 export const areFilesStored = async (...filesNames: string[]): Promise<Record<string, boolean>> => {
@@ -41,7 +41,7 @@ export const areFilesStored = async (...filesNames: string[]): Promise<Record<st
         await Promise.all(
             paths.map(async fileName => {
                 const fileFullPath = fileNameToPath(fileName);
-                result[fileName] = await fs.exists(fileFullPath);
+                result[fileName] = await fs.existsSync(fileFullPath);
             }),
         );
     }
@@ -50,12 +50,12 @@ export const areFilesStored = async (...filesNames: string[]): Promise<Record<st
 };
 
 export const isFileStored = async (name: string): Promise<boolean> => {
-    return await fs.exists(fileNameToPath(name));
+    return fs.existsSync(fileNameToPath(name));
 };
 
 export const getStoredFileNames = async () => {
     const kiDirPath = getKiDirPath();
-    return await fs.readdir(kiDirPath);
+    return fs.readdirSync(kiDirPath);
 };
 
 export const removeFilesFromStorage = async (...names: string[]): Promise<void> => {
@@ -63,7 +63,7 @@ export const removeFilesFromStorage = async (...names: string[]): Promise<void> 
     const chunkedPaths = chunkArr(paths, CPU_COUNT * 4);
 
     for (const paths of chunkedPaths) {
-        await Promise.all(paths.map(async p => await fs.remove(p)));
+        await Promise.all(paths.map(async p => fs.rmSync(p)));
     }
 };
 
@@ -72,21 +72,21 @@ export const encryptAndSaveFileToStorage = async (name: string, contents: string
     const prefixedName = `encrypted-${name}`;
     const path = fileNameToPath(prefixedName);
 
-    await fs.writeFile(path, encrypted);
+    await fs.writeFileSync(path, encrypted);
 };
 
 export const retrieveEncryptedFileFromStorage = async (name: string, password: string) => {
     const prefixedName = `encrypted-${name}`;
     const path = fileNameToPath(prefixedName);
 
-    const fileDoesNotExist = !(await fs.exists(path));
+    const fileDoesNotExist = !(fs.existsSync(path));
 
     if (fileDoesNotExist) {
         return null;
     }
 
     try {
-        const encryptedContents = await fs.readFile(path, "utf-8");
+        const encryptedContents = await fs.readFileSync(path, "utf-8");
         return decryptStringWithPassword(encryptedContents, password);
     } catch (err) {
         logger.error("failed to decrypt file: ", name, ":", err);
@@ -98,5 +98,5 @@ export const isStoredAsEncrypted = async (name: string) => {
     const prefixedName = `encrypted-${name}`;
     const path = fileNameToPath(prefixedName);
 
-    return await fs.exists(path);
+    return fs.existsSync(path);
 };

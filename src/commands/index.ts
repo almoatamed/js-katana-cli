@@ -11,10 +11,10 @@ import { createCommand as removeAllMarkdownDescriptions } from "./removeAllMarkd
 import { createCommand as seed } from "./seed/index.js";
 import { createCommand as start } from "./start/index.js";
 import { projectRoot } from "../pmManager/fs.js";
-import fs from "fs/promises";
+import fs from "fs";
 const isJsKatanaProject = async () => {
     const serverAppIdentityPathPath = path.join(projectRoot, "./server/config/appIdentity/index.ts");
-    return await fs.exists(serverAppIdentityPathPath);
+    return await fs.existsSync(serverAppIdentityPathPath);
 };
 const createCommands = async (program: import("commander").Command) => {
     if (!(await isJsKatanaProject())) {

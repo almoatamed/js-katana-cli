@@ -14,7 +14,7 @@ import {
 } from "./utility.js";
 
 import { Octokit } from "@octokit/rest";
-import { readFile } from "fs-extra";
+import fs from "fs";
 import path from "path";
 import { collectFilePathsIn } from "./fs.js";
 
@@ -103,7 +103,7 @@ const getCurrentCommit = async (octo: Octokit, org: string, repo: string, branch
 };
 
 // Notice that readFile's utf8 is typed differently from Github's utf-8
-const getFileAsUTF8 = (filePath: string) => readFile(filePath, "utf8");
+const getFileAsUTF8 = (filePath: string) => fs.readFileSync(filePath, "utf8");
 
 const createBlobForFile = (octo: Octokit, org: string, repo: string) => async (filePath: string) => {
     const content = await getFileAsUTF8(filePath);

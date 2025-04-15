@@ -1,4 +1,4 @@
-import { rmSync } from "fs-extra";
+import { rmSync } from "fs";
 import path from "path";
 import { chunkArr } from "./array.js";
 import { downloadUtility } from "./downloadUtility.js";

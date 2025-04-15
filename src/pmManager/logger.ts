@@ -36,7 +36,6 @@ export const error = (...message: any[]) => {
         console.trace()
     });
 };
-console.error = error
 
 export const success = (...message: any[]) => {
     spinWrapper(() => {
