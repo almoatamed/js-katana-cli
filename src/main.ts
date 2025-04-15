@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 import { program } from "commander";
 import logger from "./pmManager/logger.js";
 import { PackageDotJSONFile } from "./pmManager/project.js";

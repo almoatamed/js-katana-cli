@@ -1,4 +1,4 @@
-import { existsSync, statSync } from "fs";
+import { existsSync, statSync } from "fs-extra";
 import path from "path";
 import { projectRoot } from "./fs.js";
 import { getFileFromRepo, type SingleGithubFile } from "./github.js";

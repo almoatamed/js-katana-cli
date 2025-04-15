@@ -1,6 +1,6 @@
 import axios from "axios";
 import fs from "fs";
-import { existsSync } from "fs";
+import { existsSync } from "fs-extra";
 import path, { basename, join } from "path";
 import { chunkArr } from "./array.js";
 import { hashBuffersWithSha256 } from "./crypto.js";
