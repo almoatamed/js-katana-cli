@@ -1,10 +1,9 @@
 import { InvalidArgumentError } from "commander";
 
 import path from "path";
-import url from "url";
 import { srcPath } from "../../utils/kiPaths.js";
 import { projectRoot } from "../../pmManager/fs.js";
-const fs = (await import("fs")).default;
+import fs from "fs"
 
 const createCommand = (program: import("commander").Command) => {
     const methods = ["get", "post", "put", "delete"];

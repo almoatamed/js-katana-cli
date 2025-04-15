@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import logger from "./logger.js";;
+import logger from "./logger.js";
 
 export type CollectOpts = {
     configFilename: string;
@@ -13,7 +13,7 @@ export type CollectResult = {
     contents: string[];
 };
 
-const exlusions = ["node_modules"]
+const exlusions = ["node_modules"];
 
 export const collectFilePathsIn = async (dir: string) => {
     const contents = await fs.readdirSync(dir);
@@ -21,12 +21,11 @@ export const collectFilePathsIn = async (dir: string) => {
 
     for (const c of contents) {
         if (exlusions.some(e => c.startsWith(e))) {
-            continue
+            continue;
         }
         const stats = fs.statSync(path.join(dir, c));
 
         if (stats.isDirectory()) {
-
             const gotten = await collectFilePathsIn(path.join(dir, c));
             results.push(...gotten);
             continue;
@@ -71,7 +70,7 @@ export const collectDirsWithFile = async (initialPath: string, opts: CollectOpts
                 results = [...results, ...gotten];
             }
         } catch (error) {
-            continue
+            continue;
         }
     }
 
@@ -86,7 +85,7 @@ export const storeJSON = async <T>(nameOrPath: string, object: T) =>
 export const isStoredOnDisk = async (nameOrPath: string) => fs.existsSync(nameOrPath);
 
 export const readJSON = <T>(path: string) => {
-    logger.log("reading json at", path)
+    logger.log("reading json at", path);
     const contents = fs.readFileSync(path, "utf-8");
     return JSON.parse(contents) as T;
 };
@@ -97,7 +96,7 @@ export async function isValidRelativePath(path: string) {
 
 export const removeDir = async (p: string) => fs.rmdirSync(p, { recursive: true });
 
-const findProjectRoot = async (currentDir = path.resolve(".")): Promise<string> => {
+const findProjectRoot = (currentDir = path.resolve(".")): string => {
     const packagePath = path.join(currentDir, "package.json");
 
     if (fs.existsSync(packagePath)) {
@@ -112,6 +111,6 @@ const findProjectRoot = async (currentDir = path.resolve(".")): Promise<string> 
 
     return findProjectRoot(parentDir);
 };
-export const projectRoot = await findProjectRoot();
+export const projectRoot = findProjectRoot();
 logger.log("current project root", projectRoot);
 export { findProjectRoot };

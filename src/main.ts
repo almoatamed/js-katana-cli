@@ -14,7 +14,7 @@ const runCli = async () => {
         maybeCreateKiDirAtHomeDir();
         program.option("-v, --version").action(({ version }: { version: boolean }) => {
             if (version) {
-                const currentDir = url.fileURLToPath(new url.URL("./.", import.meta.url));
+                const currentDir = __dirname;
                 const kiPackageDotJsonFile = path.join(currentDir, "../package.json");
                 const kiPackageDotJson: PackageDotJSONFile = readJSON(kiPackageDotJsonFile);
                 logger.info(kiPackageDotJson.version);
@@ -37,5 +37,6 @@ const runCli = async () => {
         throw error;
     }
 };
-await runCli();
-process.exit();
+runCli().then(() => {
+    process.exit();
+});

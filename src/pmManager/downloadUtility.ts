@@ -3,10 +3,9 @@ import logger from "./logger.js";
 import { createCacheWriteStream } from "./storage/cache.js";
 import { getToken } from "./tokens.js";
 
-const axios = (await import("axios")).default;
-const fs = (await import("fs-extra")).default;
-const path = (await import("path")).default;
-
+import path from "path"; 
+import fs from "fs-extra"; 
+import axios from "axios"; 
 import { pipeline } from "stream";
 import { promisify } from "util";
 

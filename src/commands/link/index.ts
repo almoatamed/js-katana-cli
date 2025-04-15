@@ -20,7 +20,7 @@ const createCommand = (program: import("commander").Command) => {
                     }
                 };
                 const appPath = path.resolve(
-                    path.join(path.dirname(url.fileURLToPath(import.meta.url)), "../../../../../."),
+                    path.join(__dirname, "../../../../../."),
                 );
                 const envPath = path.join(appPath, "server/env.json");
                 const basePath = appPath;
