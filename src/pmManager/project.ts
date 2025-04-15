@@ -8,7 +8,9 @@ import logger from "./logger.js";
 import { CPU_COUNT } from "./os.js";
 import { readAnswerTo } from "./prompt.js";
 import { type UtilityDescription, type UtilityFile } from "./utility.js";
-import { collectDirsWithFile, findProjectRoot, projectRoot, readFiles, readJSON, removeDir, storeJSON } from "./fs.js";
+const { collectDirsWithFile, findProjectRoot, projectRoot, readFiles, readJSON, removeDir, storeJSON } = await import(
+    "./fs.js"
+);
 
 export const utilityConfigFileName = "utils.json";
 

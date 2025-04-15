@@ -1,6 +1,6 @@
 import { hasPrisma } from "../../utils/hasPrisma/index.js";
 
-import { runSubCommandLine } from "./handle/index.js";
+const runSubCommandLine = (await import("./handle/index.js")).runSubCommandLine;
 
 const createCommand = (program: import("commander").Command) => {
     if(!hasPrisma()){

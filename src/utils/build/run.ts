@@ -1,3 +1,3 @@
 import {build} from "./index.js"
 
-build()
+await build()

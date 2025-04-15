@@ -1,22 +1,18 @@
 {
     "extends": "@tsconfig/node20/tsconfig.json",
     "compilerOptions": {
-      "allowJs": true,
-      "resolveJsonModule": true,
-      "checkJs": true,
-      "outDir": "dist",
-      "rootDir": "src",
-      "target": "ES2019",                      // Modern enough, but widely supported
-      "module": "CommonJS",                    // Ensures compatibility with most Node.js apps
-      "moduleResolution": "Node",              // Standard resolution for CommonJS
-      "noImplicitAny": false,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true,
-      "declaration": true,
-      "esModuleInterop": true,                 // Allows default imports from CommonJS modules
-      "isolatedModules": true,                 // Safer builds
-      "sourceMap": true                        // Helpful for debugging in production
+        "allowJs": true,
+        "resolveJsonModule": true,
+        "checkJs": true,
+        "outDir": "dist",
+        "rootDir": "src",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext",
+        "noImplicitAny": false,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "declaration": true,
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules", ".env.json", "src/**/*.test.ts", "src/**/*.test.js", "dist"]
-  }
+}

@@ -5,7 +5,7 @@ import { srcPath } from "../../utils/kiPaths.js";
 import { projectRoot } from "../../pmManager/fs.js";
 import logger from "../../pmManager/logger.js";
 
-import fs from "fs"
+const fs = (await import("fs")).default;
 
 const createCommand = (program: import("commander").Command) => {
     program
