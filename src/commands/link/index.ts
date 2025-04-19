@@ -1,4 +1,5 @@
 import logger from "../../pmManager/logger.js";
+import { appPath } from "../../utils/kiPaths.js";
 
 const createCommand = (program: import("commander").Command) => {
     program
@@ -19,11 +20,6 @@ const createCommand = (program: import("commander").Command) => {
                         return false;
                     }
                 };
-                const appPath = path.resolve(
-                    path.join(path.dirname(url.fileURLToPath(import.meta.url)), "../../../../../."),
-                );
-                const envPath = path.join(appPath, "server/env.json");
-                const basePath = appPath;
                 const modulesDir = "node_modules";
                 const modulesPath = path.resolve(appPath, modulesDir);
                 if (!fs.existsSync(modulesPath)) {
@@ -39,7 +35,7 @@ const createCommand = (program: import("commander").Command) => {
                     return;
                 }
                 if (fileExists(linkPath)) {
-                    if (basePath === fs.realpathSync(linkPath)) {
+                    if (appPath === fs.realpathSync(linkPath)) {
                         if (options?.delete) {
                             fs.unlinkSync(linkPath);
                             return;
@@ -50,7 +46,7 @@ const createCommand = (program: import("commander").Command) => {
                     logger.error(`file already exists: ${linkPath}`);
                 }
                 fs.symlinkSync("..", linkPath, "junction");
-                logger.success(`created $ symlink to ${basePath}`);
+                logger.success(`created $ symlink to ${appPath}`);
             } catch (error) {
                 console.log(error);
                 logger.error(`${error}\n\nsymlink not created`);
