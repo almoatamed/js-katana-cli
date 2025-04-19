@@ -3,6 +3,7 @@
 .vscode
 .github
 .tests
+.git
 .vitest.config.ts
 .bun.lockb
 package-lock.json
