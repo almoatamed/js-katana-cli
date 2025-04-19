@@ -1,12 +1,13 @@
 {
     "name": "@js-katana/cli",
-    "version": "2.10.0",
+    "version": "2.11.0",
     "description": "Js-katana framework cli to control every aspect of your project",
     "keywords": [
         "js-katana",
         "cli",
         "js-katana-cli",
-        "kt-cli"
+        "kt-cli", 
+        "ki"
     ],
     "homepage": "https://github.com/almoatamed/js-katana-cli#readme",
     "bugs": {
@@ -44,6 +45,7 @@
         "fs-extra": "^11.2.0",
         "globby": "^14.0.2",
         "install": "^0.13.0",
+        "jsonwebtoken": "^9.0.2",
         "ora": "^8.0.1",
         "unzipper": "^0.12.3"
     },
