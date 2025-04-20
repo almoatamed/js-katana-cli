@@ -38,7 +38,6 @@ const currentPackagePath = await findProjectRoot();
 const mainProjectPath = await findProjectRoot(path.resolve("."));
 
 const currentPackageDotJSONContent = fs.readFileSync(path.join(currentPackagePath, "./package.json"), "utf-8");
-console.log(currentPackageDotJSONContent);
 const currentPackageDotJSON: typeof import("../../package.json") = JSON.parse(currentPackageDotJSONContent);
 
 const packageDotJsonFullPath = path.join(mainProjectPath, "./package.json");
