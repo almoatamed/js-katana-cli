@@ -303,11 +303,9 @@ program
 
             const content = [
                 `// @ts-nocheck
-import { $Enums, Prisma } from "./${path.relative(path.dirname(apiTypesFilePath), apiTypesDirFullPath)}/client/index.js";
+import { $Enums, Prisma } from "${path.relative(path.dirname(apiTypesFilePath), apiTypesDirFullPath)}/client/index.js";
 import { AxiosRequestConfig, AxiosResponse } from "axios";
 import { Merge } from "../common";
-
-export {$Enums, Prisma}
 
 export type AsyncEmitOptions = {
     timeout?: number;
@@ -681,7 +679,11 @@ export type ApiPut = <U extends ApiPutUrl | string>(
     url: U,
     data?: ApiPutBody<U>,
     config?: AsyncEmitOptions & Merge<{
-        ${putRoutes.some(r => r.requestHeadersTypeString != "OmitFunctions<any>") ? "headers?: ApiPutHeaders<U>; " : ""}
+        ${
+            putRoutes.some(r => r.requestHeadersTypeString != "OmitFunctions<any>")
+                ? "headers?: ApiPutHeaders<U>; "
+                : ""
+        }
         params?: ApiPutParams<U>; 
     }, RequestConfig<ApiPutBody<U>>>
 ) => Promise<AxiosResponse<ApiPutResponse<U>>>;
@@ -754,7 +756,11 @@ export type ApiGetParams<U extends string> = ${getRoutes
 export type ApiGet = <U extends ApiGetUrl | string>(
     url: U,
     config?: AsyncEmitOptions & Merge<{
-        ${getRoutes.some(r => r.requestHeadersTypeString != "OmitFunctions<any>") ? "headers?: ApiGetHeaders<U>; " : ""}
+        ${
+            getRoutes.some(r => r.requestHeadersTypeString != "OmitFunctions<any>")
+                ? "headers?: ApiGetHeaders<U>; "
+                : ""
+        }
         params?: ApiGetParams<U>; 
     }, RequestConfig<ApiGetBody<U>>>
 ) => Promise<AxiosResponse<ApiGetResponse<U>>>;
