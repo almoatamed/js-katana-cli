@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-import "dotenv";
 const axios = (await import("axios")).default;
 const unzipper = await import("unzipper");
 import { program } from "commander";
@@ -49,6 +48,7 @@ const packageDotJson: {
         assetsPrefix: string;
         baseUrl: string;
         scope?: string;
+        secret: string;
     };
 } = JSON.parse(fs.readFileSync(packageDotJsonFullPath, "utf-8"));
 
@@ -61,6 +61,7 @@ if (!packageDotJson["apiTypes"]) {
     "assetsPrefix": string;
     "baseUrl": string; 
     "scope"?: string;
+    "secret": string;  
 }
 
 For example 
@@ -73,6 +74,7 @@ For example
         "assetsPrefix": "server/assets",
         "baseUrl": "http://localhost:3000", // your js-katana server host and port
         "scope": "dashboard",
+        "secret": "your description secret",
     }
     ...
 }
@@ -225,16 +227,8 @@ program
             assetsPrefix = packageDotJson["apiTypes"]?.["assetsPrefix"];
         }
         assetsPrefix = join(baseUrl, assetsPrefix);
-        const dotEnv: any = process.env;
-        const getFromEnv = (key: string): any => {
-            return dotEnv[key] || dotEnv[key.toLowerCase()] || dotEnv[key.toUpperCase()];
-        };
 
-        const secret = getFromEnv("description_secret");
-        if(!secret){
-            console.error("Please provide description secret in your environment DESCRIPTION_SECRET=\"YOUR SECRET\"")
-            process.exit(1)
-        }
+        const secret = packageDotJson["apiTypes"]?.secret;
 
         const loadPrismaClient = () => {
             return new Promise(async (resolve, reject) => {
@@ -309,10 +303,7 @@ program
 
             const content = [
                 `// @ts-nocheck
-import { $Enums, Prisma } from "./${path.relative(
-                    path.dirname(apiTypesFilePath),
-                    apiTypesDirFullPath
-                )}/client/index.js";
+import { $Enums, Prisma } from "./${path.relative(path.dirname(apiTypesFilePath), apiTypesDirFullPath)}/client/index.js";
 import { AxiosRequestConfig, AxiosResponse } from "axios";
 import { Merge } from "../common";
 
